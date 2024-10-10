@@ -1,24 +1,14 @@
 import streamlit as st
 from datetime import datetime, timedelta
 from fpdf import FPDF  # To generate PDFs
-import os
 
 # Function to simulate email sending
 def send_email_template(company_name, message):
-    # Placeholder for sending email logic (e.g., with smtplib or external service)
     st.success(f"Automated email prepared for {company_name} with the following message:")
     st.text_area("Email Content", value=message, height=300)
 
-# Function to convert text documents into PDF and store in a folder
+# Function to convert text documents into PDF
 def convert_to_pdf(documents, output_filename="merged_documents.pdf"):
-    # Create folder if it doesn't exist
-    output_folder = "generated_pdfs"
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-
-    # Define the full output path for the PDF
-    output_path = os.path.join(output_folder, output_filename)
-
     # Create the PDF
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
@@ -30,18 +20,17 @@ def convert_to_pdf(documents, output_filename="merged_documents.pdf"):
         pdf.multi_cell(200, 10, txt=doc)
         pdf.ln()
 
-    # Save the PDF to the specified path
-    pdf.output(output_path)
-    st.success(f"Documents have been merged and saved as {output_path}")
+    # Output the PDF in memory
+    pdf_output = pdf.output(dest='S').encode('latin1')  # 'S' saves the PDF to a string
+    st.success(f"Documents have been merged and are ready for download.")
     
     # Provide a download link
-    with open(output_path, "rb") as file:
-        st.download_button(
-            label="Download the generated PDF",
-            data=file,
-            file_name=output_filename,
-            mime="application/pdf"
-        )
+    st.download_button(
+        label="Download the generated PDF",
+        data=pdf_output,
+        file_name=output_filename,
+        mime="application/pdf"
+    )
 
 # Part 1: Deal Signed and Document Flow
 st.title("Document Registration Flow")
@@ -160,7 +149,7 @@ Thanks.
                     st.markdown('<div class="box">The registration is not past due date. Proceeding to convert documents to PDF.</div>', unsafe_allow_html=True)
                     
                     if st.button("Convert to PDF"):
-                        # Convert uploaded documents into a single PDF and save it in the "generated_pdfs" folder
+                        # Convert uploaded documents into a single PDF
                         convert_to_pdf(documents_content, "merged_documents.pdf")
 
             except Exception as e:
