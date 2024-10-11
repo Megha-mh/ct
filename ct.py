@@ -32,7 +32,7 @@ def send_email_via_sendgrid(to_email, subject, company_name, issue_date, calcula
         """
 
         # Send the email using SendGrid
-        sg = SendGridAPIClient('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')  # Replace with your SendGrid API key
+        sg = SendGridAPIClient('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')  # Replace with your SendGrid API key
         email = Mail(
             from_email='megha@finanshels.com',  # Replace with your verified SendGrid email
             to_emails=to_email,
