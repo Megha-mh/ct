@@ -8,7 +8,7 @@ from sendgrid.helpers.mail import Mail
 # Function to send email with Yes/No buttons
 def send_email_via_sendgrid(to_email, subject, company_name, issue_date, calculated_date):
     try:
-        app_url = "https://8sy5nwr6jaqybi2fjogczp.streamlit.app/"  # Replace with your Streamlit app URL
+        app_url = "https://your-streamlit-app-url.com"  # Replace with your Streamlit app URL
 
         # Construct email message with Yes/No buttons
         message = f"""
@@ -32,7 +32,7 @@ def send_email_via_sendgrid(to_email, subject, company_name, issue_date, calcula
         """
 
         # Send the email using SendGrid
-        sg = SendGridAPIClient('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')  # Replace with your SendGrid API key
+        sg = SendGridAPIClient('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')  # Replace with your SendGrid API key
         email = Mail(
             from_email='megha@finanshels.com',  # Replace with your verified SendGrid email
             to_emails=to_email,
